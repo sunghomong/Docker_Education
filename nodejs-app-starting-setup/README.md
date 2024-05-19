@@ -101,3 +101,41 @@ docker run -p 3000:80 #{container id}
 ## build에 대한 이해
 
 - 이미 읽어낸 이미지를 한번더 빌드해서 읽어내면 Using cache하면서 빠르게 빌드가 끝나는것을 확인
+
+## COPY package.json /app (캐시의 이해)
+
+- 해당 코드를 npm install 위에 놓고 server.js만 수정을 하고 빌드하면 속도가 빨라진걸 확인 가능
+- 이유는 해당 json은 변경이 없었기에 기존 캐시를 유지하고 다음 명령어를 실행
+
+## 멈춘 컨테이너 다시 실행
+
+```shell
+docker start #컨테이너 이름/아이디
+```
+
+## Attached & Detached 컨테이너 이해하기
+
+```shell
+docker run 8000:80 -d #이미지id
+docker attach #컨테이너id 
+```
+
+- attach를 하면 해당 컨테이너로 들어갈 수 있다.
+- 기존의 run을 보면 이해하기 쉽다 server.js를 보면 console로 결과물을 출력하는 걸 확인 가능하다.
+- run을 시키면 터미널 자체는 해당 컨테이너를 run 시키고 console 결과를 확인 가능하다.
+- 하지만 Detached는 디폴트로 run을 시키고 다른 작업을 가능하게 한다.
+- docker start의 디폴트 값은 Detached이다.
+- 콘솔의 입력된 과거의 값들을 가져오는 방법은 아래와 같다.
+
+```shell
+docker logs #컨테이너id
+```
+
+- 컨테이너를 실행 시키고 다시 프로세스를 갖는 방법은 아래의 명령어다.
+
+```shell
+docker logs -f #컨테이너id
+docker start -a #컨테이너id -> attache 모드로 다시 컨테이너 실행
+```
+
+
